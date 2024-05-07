@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:cocktailsapp/datakelompok.dart';
 import 'package:cocktailsapp/drinkdetail.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import 'main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,9 +23,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   fetchData() async {
-    Dio dio = Dio();
-    res = await dio.get(
-        "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail");
+    
+    res = await http.get(Uri.parse(api));
     drinks = jsonDecode(res.body)["drinks"];
     print(drinks.toString());
     setState(() {});
