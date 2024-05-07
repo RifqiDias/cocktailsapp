@@ -5,13 +5,13 @@ import 'main.dart';
 class DrinkDetail extends StatelessWidget {
   final drink;
 
-  const DrinkDetail({Key key, @required this.drink}) : super(key: key);
+  const DrinkDetail({Key? key, @required this.drink}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-        myColor,
+        Colors.brown,
         Colors.orange,
       ])),
       child: Scaffold(

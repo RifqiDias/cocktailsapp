@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cocktailsapp/datakelompok.dart';
 import 'package:cocktailsapp/drinkdetail.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +25,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   fetchData() async {
-    res = await http.get(api);
+    Dio dio = Dio();
+    res = await dio.get(
+        "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail");
     drinks = jsonDecode(res.body)["drinks"];
     print(drinks.toString());
     setState(() {});
@@ -35,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-        myColor,
+        Colors.brown,
         Colors.lightBlue,
       ])),
       child: Scaffold(
@@ -47,13 +50,11 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: 15),
-              child: Icon(
-              Icons.search
-              ),
+              child: Icon(Icons.search),
             )
           ],
         ),
-        drawer:  drawer(),
+        drawer: drawer(),
         body: Center(
           child: res != null
               ? ListView.builder(
@@ -106,90 +107,81 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-Widget drawer(){
-  return Drawer(
-          child: new ListView(
-        children: <Widget>[
-          new UserAccountsDrawerHeader(
-              accountName: new Text(
-                "Cafe Eudeka",textAlign: TextAlign.end,
-                style: TextStyle(color: Colors.blue),
-              ),
-              accountEmail: new Text(
-                "connect@eudeka.id",
-                style: TextStyle(color: Colors.blue),
-              ),
-              decoration: new BoxDecoration(
-                image: new DecorationImage(
-                  image: new ExactAssetImage('assets/images/bgg.jpg'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              currentAccountPicture: Image.asset("assets/images/eudeka.png"),
-                  ),
-          new ExpansionTile(
-              leading: Icon(
-                Icons.folder,
-                color: Colors.lightBlue,
-              ),
-              title: new Text(
-                "Minuman",
-              ),
-              trailing: Icon(
-                Icons.arrow_drop_down
-              ),
-              children: <Widget>[
-       new ListTile(
-   
+  Widget drawer() {
+    return Drawer(
+        child: new ListView(
+      children: <Widget>[
+        new UserAccountsDrawerHeader(
+          accountName: new Text(
+            "Cafe Eudeka",
+            textAlign: TextAlign.end,
+            style: TextStyle(color: Colors.blue),
+          ),
+          accountEmail: new Text(
+            "connect@eudeka.id",
+            style: TextStyle(color: Colors.blue),
+          ),
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new ExactAssetImage('assets/images/bgg.jpg'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          currentAccountPicture: Image.asset("assets/images/eudeka.png"),
+        ),
+        new ExpansionTile(
+          leading: Icon(
+            Icons.folder,
+            color: Colors.lightBlue,
+          ),
+          title: new Text(
+            "Minuman",
+          ),
+          trailing: Icon(Icons.arrow_drop_down),
+          children: <Widget>[
+            new ListTile(
               title: new Text(
                 "Minuman 1",
               ),
-              trailing: Icon(
-                Icons.arrow_right
-              ),
-              ),
-                   new ListTile(
-         
+              trailing: Icon(Icons.arrow_right),
+            ),
+            new ListTile(
               title: new Text(
                 "Minuman 2",
               ),
-              trailing: Icon(
-                Icons.arrow_right
-              ),
+              trailing: Icon(Icons.arrow_right),
               // onTap: () {
               //   Navigator.of(context).push(
               //       MaterialPageRoute(builder: (context) => DeviceGroup()));
               // }
-              ),
-
-              ],
-              ),
-          new Divider(),
-          ListTile(
-              leading: Icon(Icons.info,
+            ),
+          ],
+        ),
+        new Divider(),
+        ListTile(
+            leading: Icon(
+              Icons.info,
               color: Colors.lightBlue,
-              ),
-              title: new Text("About"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DataKelompok()));
-              }),
-               new Divider(),
-        
-          new ListTile(
-              leading: Icon(
-                Icons.exit_to_app,
-                color: Colors.lightBlue,
-              ),
-              title: new Text("Logout"),
-              // onTap: () {
-              //   Navigator.of(context)
-              //       .push(MaterialPageRoute(builder: (context) => MyApp()));
-              //   Navigator.of(context);
-              // }
-              ),
-        ],
-      )
-      );
-}
-
+            ),
+            title: new Text("About"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => DataKelompok()));
+            }),
+        new Divider(),
+        new ListTile(
+          leading: Icon(
+            Icons.exit_to_app,
+            color: Colors.lightBlue,
+          ),
+          title: new Text("Logout"),
+          // onTap: () {
+          //   Navigator.of(context)
+          //       .push(MaterialPageRoute(builder: (context) => MyApp()));
+          //   Navigator.of(context);
+          // }
+        ),
+      ],
+    ));
+  }
 }
